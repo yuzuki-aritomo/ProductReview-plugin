@@ -18,6 +18,7 @@ use Eccube\Entity\Product;
 use Eccube\Repository\AbstractRepository;
 use Eccube\Util\StringUtil;
 use Plugin\ProductReview4\Entity\ProductReview;
+use Plugin\ProductReview4\Entity\ProductReviewStatus;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -138,6 +139,8 @@ class ProductReviewRepository extends AbstractRepository
                 ->leftJoin('r.Product', 'p')
                 ->where('r.Product = :Product')
                 ->setParameter('Product', $Product)
+                ->andWhere('r.Status = :Status')
+                ->setParameter('Status', ProductReviewStatus::SHOW)
                 ->groupBy('r.Product');
 
             return $qb->getQuery()->getSingleResult();
